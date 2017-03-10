@@ -1,5 +1,8 @@
 package org.green.uassistant.broadcasts;
 
+import org.green.uassistant.app.UAssistantApplication;
+import org.green.uassistant.model.Call;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +21,10 @@ public class CallsBroadcastReceiver extends BroadcastReceiver {
             String state = extras.getString(TelephonyManager.EXTRA_STATE);
             if (state != null && state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 String phoneNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                
+                ((UAssistantApplication) context.getApplicationContext()).bus().send(new Call(phoneNumber));
                 Log.e("DEBUG", phoneNumber);
             }
         }
     }
+
 }
